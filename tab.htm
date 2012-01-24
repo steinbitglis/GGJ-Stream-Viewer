@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="jquery-1.7.1.min.js"></script>
+        <script src="jquery-ui-1.8.17.custom.min.js"></script>
+        <script>
+            var embedable_code_head = '<object width="480" height="296" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"><param name="flashvars" value="cid=';
+            var embedable_code_center = '&amp;autoplay=false"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="src" value="http://www.ustream.tv/flash/viewer.swf"/><embed flashvars="cid=';
+            var embedable_code_tail = '&amp;autoplay=false" width="480" height="296" allowfullscreen="true" allowscriptaccess="always" src="http://www.ustream.tv/flash/viewer.swf" type="application/x-shockwave-flash"></embed></object>';
+
+            var displays = [{
+                query_id: "#sortable1",
+                index: 1,
+                timeout_id: 0,
+                delay_seconds: 10,
+                current_index: 0 },
+
+                           {
+                query_id: "#sortable2",
+                index: 2,
+                timeout_id: 0,
+                delay_seconds: 10,
+                current_index: 0 },
+
+                           {
+                query_id: "#sortable3",
+                index: 3,
+                timeout_id: 0,
+                delay_seconds: 10,
+                current_index: 0 },
+
+                           {
+                query_id: "#sortable4",
+                index: 4,
+                timeout_id: 0,
+                delay_seconds: 10,
+                current_index: 0 }];
+
+            var set_screen = function(s) {
+                s.current_index += 1;
+                sources = $(s.query_id).sortable("toArray");
+                if (s.current_index >= sources.length) {
+                    s.current_index %= sources.length;
+                }
+                var id = sources[s.current_index].substring(2);
+                $('#screen' + s.index).html(embedable_code_head + id + embedable_code_center + id + embedable_code_tail);
+                s.timeout_id = window.setTimeout(function(){set_screen(s);}, s.delay_seconds * 1000);
+            };
+
+            var id_from_button = function(n) {
+                var request = new XMLHttpRequest();
+                request.open('GET', 'http://globalgamejam.org/streams?tid_3=' + $('#site' + n).val(), false);   
+                request.send(null);  
+
+                if (request.status === 200) {  
+                    var ggj_response = request.responseText;  
+                    var re = /<embed[^>]*flashvars="[^"]*cid=([0-9]+)/
+                    return re.exec(ggj_response)[1];
+                }
+            };
+
+            jQuery(function(){
+
+                $( "#sortable1, #sortable2, #sortable3, #sortable4" ).sortable({
+                    connectWith: ".connectedSortable"
+                }).disableSelection();
+
+                $(".delete-item").click(function(){
+                    $(this).parent().remove(); 
+                });
+
+                $( ".connectedSortable" ).sortable({
+                    stop: function(event, ui) {
+                        //alert($( ".connectedSortable" ).sortable("toArray"));
+                    }
+                });
+
+                for (var fid = 1; fid <= 4; fid++){
+                    $('#site' + fid).change(function() {
+                        var re = /site([0-9]*)/
+                        var n = re.exec(this.id)[1];
+
+                        $("#delay" + n).change(function() {
+                            displays[n-1].delay_seconds = $(this).val();
+                        });
+
+                        var newId = id_from_button(n);
+
+                        var newLi = $('<li id="' + n + '-' + newId + '">' + $('#site' + n).val() + '</li>');
+                        $(newLi).append('<div class="delete-item">X</div>').click(function() {
+                            $(this).remove(); 
+                        });
+
+                        $('#sortable' + n).append(newLi);
+                        window.clearTimeout(displays[n-1].timeout_id);
+                        displays[n-1].current_index = -1;
+                        set_screen(displays[n-1]);
+                        // set_screen(n, newId);
+                    });
+                }
+            });
+        </script>
+        <style>
+            body { background-color: black; }
+            .delete-item { display:inline; color:red; }
+            .connectedSortable { background-color:white; list-style-type:none; padding:5px; margin-top:1em; border: 1px solid black; }
+            .connectedSortable .delete-item { float:right; width:1em; }
+            input { width:100%; }
+            .settings td { padding:1em; background-color:#EBECE4; border:2px solid black; vertical-align:top; }
+            table { border-collapse: collapse; }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td><div id="screen1"></div></td>
+                <td><div id="screen2"></div></td>
+            </tr><tr>
+                <td><div id="screen3"></div></td>
+                <td><div id="screen4"></div></td>
+            </tr>
+        </table>
+        <table class="settings">
+            <tr>
+                <td>
+                    <input style="margin-top: 0px; border:1px solid black" type="text" id="site1" placeholder="Site for window 1"/>
+                    <input type="number" min="10" max="2000000" id="delay1" value="3600"/>
+                    <ul id="sortable1" class="connectedSortable">
+                    </ul>
+                </td>
+                <td>
+                    <input type="text" id="site2" placeholder="Site for window 2"/>
+                    <input type="number" min="10" max="2000000" id="delay2" value="3600"/>
+                    <ul id="sortable2" class="connectedSortable">
+                    </ul>
+                </td>
+            </tr><tr>
+                <td>
+                    <input type="text" id="site3" placeholder="Site for window 3"/>
+                    <input type="number" min="10" max="2000000" id="delay1" value="3600"/>
+                    <ul id="sortable3" class="connectedSortable">
+                    </ul>
+                </td>
+                <td>
+                    <input type="text" id="site4" placeholder="Site for window 4"/>
+                    <input type="number" min="10" max="2000000" id="delay2" value="3600"/>
+                    <ul id="sortable4" class="connectedSortable">
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

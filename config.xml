@@ -1,0 +1,13 @@
+<widget xmlns="http://www.w3.org/ns/widgets"
+    id="http://fredrik.ludvigsen.name/four_streams">
+    <name short="Four Streams" xml:lang="en">An interface for viewing multiple GGJ videostreams simultaneously.</name>
+    <description xml:lang="en">
+        An interface for viewing multiple GGJ
+        videostreams simultaneously.</description>
+    <author
+        email="post@fredrik.ludvigsen.name">
+        Fredrik Ludvigsen
+    </author>
+    <access origin="http://globalgamejam.org"/>
+    <access origin="http://www.ustream.tv"/>
+</widget>

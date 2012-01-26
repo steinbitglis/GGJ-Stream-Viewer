@@ -2,7 +2,17 @@
 <html>
     <head>
         <script>
-            opera.extension.tabs.create({url:"tab.htm",focused:true});
+            window.addEventListener("load", function(){
+                var traderButtonProperties = {
+                    title: "GGJ Streaming",
+                    icon: "stream-button.png",
+                    onclick: function() {
+                        opera.extension.tabs.create({url:"tab.htm",focused:true});
+                    },
+                }
+                theButton = opera.contexts.toolbar.createItem(traderButtonProperties);
+                opera.contexts.toolbar.addItem(theButton);
+            }, false);
         </script>
     </head>
 </html>

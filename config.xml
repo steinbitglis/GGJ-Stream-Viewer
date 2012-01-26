@@ -1,9 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets"
-    id="http://fredrik.ludvigsen.name/ggj-video">
-    <name short="GGJ Video" xml:lang="en">An interface for viewing multiple GGJ videostreams simultaneously.</name>
+    id="http://https://github.com/steinbitglis/Global-Game-Jam-Video-Stream-Viewer">
+    <name short="GGJ-Stream-Viewer" xml:lang="en">Global Game Jam Stream Viewer</name>
     <description xml:lang="en">
-        An interface for viewing multiple GGJ
-        videostreams simultaneously.</description>
+        An interface for viewing 4 GGJ
+        videostreams simultaneously. It's roughly equivalent of
+        making 4 searches at http://globalgamejam.org/streams and
+        placing the html together in a single window.
+
+        Each window has a list of sites. A site is added every
+        time the text in the line above is changed (tab away).
+        The numbers control how fast the list for each window will
+        advance.
+    </description>
     <author
         email="post@fredrik.ludvigsen.name">
         Fredrik Ludvigsen

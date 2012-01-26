@@ -12,28 +12,28 @@
                 query_id: "#sortable1",
                 index: 1,
                 timeout_id: 0,
-                delay_seconds: 10,
+                delay_seconds: 300,
                 current_index: 0 },
 
                            {
                 query_id: "#sortable2",
                 index: 2,
                 timeout_id: 0,
-                delay_seconds: 10,
+                delay_seconds: 300,
                 current_index: 0 },
 
                            {
                 query_id: "#sortable3",
                 index: 3,
                 timeout_id: 0,
-                delay_seconds: 10,
+                delay_seconds: 300,
                 current_index: 0 },
 
                            {
                 query_id: "#sortable4",
                 index: 4,
                 timeout_id: 0,
-                delay_seconds: 10,
+                delay_seconds: 300,
                 current_index: 0 }];
 
             var set_screen = function(s) {
@@ -84,9 +84,17 @@
                             displays[n-1].delay_seconds = $(this).val();
                         });
 
-                        var newId = id_from_button(n);
+                        var newLi;
 
-                        var newLi = $('<li id="' + n + '-' + newId + '">' + $('#site' + n).val() + '</li>');
+                        var ustream_re = /(http:\/\/(www\.)?ustream\.tv\/channel\/(.*))/
+                        var ustream_result = ustream_re.exec($('#site' + n).val());
+                        if (ustream_result) {
+                            var newLi = $('<li id="' + n + '-' + ustream_result[3] + '">' + ustream_result[0] + '</li>');
+                        } else {
+                            var newId = id_from_button(n);
+                            var newLi = $('<li id="' + n + '-' + newId + '">' + $('#site' + n).val() + '</li>');
+                        }
+
                         $(newLi).append('<div class="delete-item">X</div>').click(function() {
                             $(this).remove(); 
                         });

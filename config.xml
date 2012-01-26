@@ -13,6 +13,7 @@
         The numbers control how fast the list for each window will
         advance.
     </description>
+    <icon src="icon.png"/>
     <author
         email="post@fredrik.ludvigsen.name">
         Fredrik Ludvigsen

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets"
-    id="http://https://github.com/steinbitglis/Global-Game-Jam-Video-Stream-Viewer">
+    id="https://github.com/steinbitglis/GGJ-Stream-Viewer">
     <name short="GGJ-Stream-Viewer" xml:lang="en">Global Game Jam Stream Viewer</name>
     <description xml:lang="en">
         An interface for viewing 4 GGJ
